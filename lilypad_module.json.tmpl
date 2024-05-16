@@ -1,0 +1,38 @@
+{
+  "machine": {
+    "gpu": 0,
+    "cpu": 1000,
+    "ram": 100
+  },
+  "job": {
+    "APIVersion": "V1beta1",
+    "Spec": {
+      "Deal": {
+        "Concurrency": 1
+      },
+      "Docker": {
+        "Entrypoint": [
+          "/bin/sh",
+          "-c",
+          "/usr/app/run \"$MESSAGE\""
+        ],
+        "EnvironmentVariables": [
+          {{ if .Message }}"{{ subst "MESSAGE=%s" .Message }}"{{else}}"Message=Hello World"{{ end }}
+        ],
+        "Image": "dockerhubuser/image:tagversion@sha256:hash"
+      },
+      "Engine": "Docker",
+      "Network": {
+        "Type": "None"
+      },
+      "PublisherSpec": {
+        "Type": "IPFS"
+      },
+      "Resources": {
+        "GPU": ""
+      },
+      "Timeout": 1800,
+      "Verifier": "Noop"
+    }
+  }
+}
